@@ -1,0 +1,6 @@
+C:\xampp\htdocs\crud_poltek\ebab_mbinsmenu0.png
+C:\xampp\htdocs\crud_poltek\ebab_mbinsmenu0_c.png
+C:\xampp\htdocs\crud_poltek\ebab_mbinsmenu0_c2.png
+C:\xampp\htdocs\crud_poltek\mbjsmbinsmenu0.js
+C:\xampp\htdocs\crud_poltek\mbcsmbinsmenu0.css
+C:\xampp\htdocs\crud_poltek\filelist_rfzq.txt

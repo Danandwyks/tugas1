@@ -1,0 +1,111 @@
+<?php
+
+$koneksi = mysqli_connect("localhost","root","","nilai");
+
+if (mysqli_connect_errno()){
+echo "Gagal melakukan koneksi ke MySQL: " . mysqli_connect_error();
+}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Penjumlahan beruntun</title><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</head>
+<body class="container-fluid" style="margin: 40px 80px">
+	<form name="form-1" method="POST">
+		<h2>Penjumlahan Beruntun</h2>
+		Nilai 1 : <input type="number" name="a"><br>
+		Nilai 2 : <input type="number" name="b"><br>
+		<input type="submit" name="submit" value="submit">
+		<input type="reset" name="reset" value="reset">
+		<?php
+		if(isset($_POST['submit'])){
+			$a=$_POST['a'];
+			$b=$_POST['b'];
+			$c=$a+$b;
+
+			if($c<=0){
+				$keterangan='D';
+			} elseif($c>>0){
+				$keterangan='A';
+			}elseif($c>>10) {
+				$keterangan='B';
+
+			} elseif($c>>10) {
+				$keterangan='C';
+
+			}
+			for($i=0;$i<=10;$i++){
+				$a=$b;
+				$b=$c;
+				$c=$a+$b;
+				if($c<=0){
+					$keterangan='D';
+				} elseif($c>>0){
+					$keterangan='A';
+				}elseif($c>>10) {
+					$keterangan='B';
+
+				} elseif($c>>10) {
+					$keterangan='C';
+
+				}
+				$sql = mysqli_query($koneksi, "INSERT INTO tb_nilai (nilai_a, nilai_b, nilai_c,nilai_keterangan) VALUES('$a', '$b', '$c','$keterangan')") or die(mysqli_error($koneksi));
+
+			}
+			/*$sql = mysqli_query($koneksi, "INSERT INTO tb_nilai (nilai_a, nilai_b, nilai_c,nilai_keterangan) VALUES('$a', '$b', '$c','$keterangan')") or die(mysqli_error($koneksi));*/
+			echo "<br><input type='text' value=$c>";
+		}
+
+		?>
+		
+	</form>
+	<br>
+	<table border="1px">
+		<thead>
+		<tr>
+			<td>ID</td>
+			<td>Nilai 1</td>
+			<td>Nilai 2</td>
+			<td>Hasil Penjumlahan</td>
+			<td>Keterangan</td>
+		</tr>
+	</thead>
+	<tbody>
+		<?php
+		$sql = mysqli_query($koneksi, "Select * from tb_nilai");
+		if(mysqli_num_rows($sql) > 0){
+			$no = 1;
+			while($data = mysqli_fetch_assoc($sql)){
+				echo '
+				<tr>
+				<td>'.$no.'</td>
+				<td>'.$data['nilai_a'].'</td>
+				<td>'.$data['nilai_b'].'</td>
+				<td>'.$data['nilai_c'].'</td>
+				<td>'.$data['nilai_keterangan'].'</td>
+				
+				</tr>
+				';
+
+				$no++;
+				}
+				//jika query menghasilkan nilai 0
+				}else{
+				echo '
+				<tr>
+				<td colspan="5">Tidak ada data.</td>
+				</tr>
+				';
+				}
+			
+		?>
+	</tbody>
+	</table>
+
+</body>
+</html>
